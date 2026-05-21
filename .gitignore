@@ -1,0 +1,123 @@
+# =====================================================
+# Azure Credentials & Secrets
+# =====================================================
+AZURE_CREDENTIALS.env
+.env
+.env.local
+.env.*.local
+
+# =====================================================
+# Documentation (temporary/local)
+# =====================================================
+AZURE_DEPLOYMENT.md
+DEPLOYMENT.md
+
+# =====================================================
+# Terraform
+# =====================================================
+terraform/.terraform/
+terraform/*.tfvars
+terraform/*.tfvars.json
+**/terraform.tfstate
+**/terraform.tfstate.*
+**/.terraform.lock.hcl
+terraform/override.tf
+terraform/override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# =====================================================
+# SSH Keys
+# =====================================================
+.ssh/
+*.pem
+*.pub
+private_key*
+public_key*
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+
+# =====================================================
+# IDE & Editor
+# =====================================================
+.vscode/*
+!.vscode/mcp.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+
+# =====================================================
+# Build & Dependencies
+# =====================================================
+node_modules/
+dist/
+build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =====================================================
+# OS Files
+# =====================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# =====================================================
+# Temporary Files
+# =====================================================
+*.tmp
+*.temp
+*.bak
+*.backup
+~*
+
+# =====================================================
+# Azure & Cloud Files
+# =====================================================
+.azure/
+azure-pipelines-*.yml
+azure-pipelines-*.yaml
+*.azurepipeline
+
+# =====================================================
+# Local Development
+# =====================================================
+local.env
+.vault
+
+# =====================================================
+# Scripts with Credentials
+# =====================================================
+Install-OpenClaw.ps1
+deploy.ps1
+deploy.sh
+install-*.sh
+secrets/
+credentials/
+config/local/
+
+# =====================================================
+# Sensitive Data Patterns
+# =====================================================
+**/secrets.json
+**/config.json
+**/credentials.json
+**/.aws
+**/.gcp
+**/private*
+**/confidential*
