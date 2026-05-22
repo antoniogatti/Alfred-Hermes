@@ -10,16 +10,19 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from sofia_auth import auth_headers
 
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN") or (
-    Path.home() / ".hermes/profiles/palazzopinto/.telegram_token"
-).read_text().strip() if (Path.home() / ".hermes/profiles/palazzopinto/.telegram_token").exists() else None
+_HERMES_PROFILE = Path("/home/azureuser/.hermes/profiles/palazzopinto")
 
-TELEGRAM_CHAT_ID = 2006873328
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN") or (
+    (_HERMES_PROFILE / ".telegram_token").read_text().strip()
+    if (_HERMES_PROFILE / ".telegram_token").exists() else None
+)
+
+TELEGRAM_CHAT_IDS = [2006873328, 8930593706]  # Ant, Lucia
 
 # Leggo token dal config yaml se non trovato altrove
 if not TELEGRAM_BOT_TOKEN:
     import yaml
-    cfg = Path.home() / ".hermes/profiles/palazzopinto/config.yaml"
+    cfg = _HERMES_PROFILE / "config.yaml"
     data = yaml.safe_load(cfg.read_text())
     TELEGRAM_BOT_TOKEN = data.get("telegram", {}).get("bot_token", "")
 
@@ -33,14 +36,18 @@ ROOMS = {
 
 def send_telegram(text: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = json.dumps({
-        "chat_id": TELEGRAM_CHAT_ID,
-        "text": text,
-        "parse_mode": "HTML",
-    }).encode()
-    req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=10) as resp:
-        return json.loads(resp.read())
+    for chat_id in TELEGRAM_CHAT_IDS:
+        try:
+            payload = json.dumps({
+                "chat_id": chat_id,
+                "text": text,
+                "parse_mode": "HTML",
+            }).encode()
+            req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                json.loads(resp.read())
+        except Exception as e:
+            print(f"[WARN] Telegram send failed for chat_id {chat_id}: {e}", file=sys.stderr)
 
 
 def fetch_arrivals_for_room(room_id: str, today_str: str, headers: dict) -> list:

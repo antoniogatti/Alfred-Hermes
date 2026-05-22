@@ -22,7 +22,7 @@ from pathlib import Path
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 BACKEND_URL = "https://api.palazzopintobnb.com"
-SECRETS_DIR = Path.home() / ".hermes/profiles/palazzopinto"
+SECRETS_DIR = Path("/home/azureuser/.hermes/profiles/palazzopinto")
 JWT_CACHE   = SECRETS_DIR / ".sofia_jwt"
 SECRET_FILE = SECRETS_DIR / ".sofia_secret"
 CREDS_FILE  = SECRETS_DIR / ".sofia_creds"   # JSON: {client_id, client_secret}

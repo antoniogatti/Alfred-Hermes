@@ -4,7 +4,7 @@ Azure Cost Dashboard updater.
 Fetches current month costs via Cost Management API, generates HTML dashboard,
 uploads to Azure Blob Storage static website.
 """
-import subprocess, json, calendar
+import subprocess, json, calendar, urllib.error
 from datetime import date, datetime
 
 SUBSCRIPTION = "927d8895-21e1-452d-a35a-e04253f2c80e"
@@ -15,7 +15,7 @@ BUDGET = 150.0
 LOCAL_HTML_PATH = "/home/azureuser/repo/antoniogatti/Alfred-Hermes/_vm_tools/AzureCostDashboard/index.html"
 PAGE_URL = "http://4.232.81.58:8080"
 TELEGRAM_BOT_TOKEN = "8762402366:AAERRdcywRFxd6WkNnwGFzdncebn13Xzu6E"
-TELEGRAM_CHAT_ID = 2006873328  # Ant (@Anttt00)
+TELEGRAM_CHAT_IDS = [2006873328, 8930593706]  # Ant (@Anttt00), Lucia (Lucifera84)
 
 def get_token():
     r = subprocess.run(
@@ -25,7 +25,7 @@ def get_token():
     return r.stdout.strip()
 
 def fetch_costs(token):
-    import urllib.request
+    import urllib.request, time
     url = f"https://management.azure.com/subscriptions/{SUBSCRIPTION}/providers/Microsoft.CostManagement/query?api-version=2023-11-01"
     payload = json.dumps({
         "type": "ActualCost",
@@ -43,8 +43,18 @@ def fetch_costs(token):
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     })
-    with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read())
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req) as resp:
+                return json.loads(resp.read())
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                wait = 30 * (attempt + 1)
+                print(f"429 Too Many Requests — attendo {wait}s (tentativo {attempt+1}/5)...")
+                time.sleep(wait)
+            else:
+                raise
+    raise Exception("Azure Cost API: troppi tentativi falliti (429)")
 
 def generate_html(rows):
     today = date.today()
@@ -267,31 +277,29 @@ def build_telegram_summary(rows, total_cost, pct, projected):
 
 def send_telegram(msg):
     import urllib.request, urllib.parse
-    # auto-discover chat_id if not set
-    chat_id = TELEGRAM_CHAT_ID
-    if not chat_id:
-        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getUpdates"
-        with urllib.request.urlopen(url) as resp:
-            data = json.loads(resp.read())
-        results = data.get("result", [])
-        if not results:
-            print("Telegram: nessun chat disponibile, messaggio non inviato.")
-            return False
-        chat_id = results[-1]["message"]["chat"]["id"]
-    payload = json.dumps({
-        "chat_id": chat_id,
-        "text": msg,
-        "parse_mode": "Markdown",
-        "disable_web_page_preview": True
-    }).encode()
-    req = urllib.request.Request(
-        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
-        data=payload,
-        headers={"Content-Type": "application/json"}
-    )
-    with urllib.request.urlopen(req) as resp:
-        result = json.loads(resp.read())
-    return result.get("ok", False)
+    results = []
+    for chat_id in TELEGRAM_CHAT_IDS:
+        payload = json.dumps({
+            "chat_id": chat_id,
+            "text": msg,
+            "parse_mode": "Markdown",
+            "disable_web_page_preview": True
+        }).encode()
+        req = urllib.request.Request(
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+            data=payload,
+            headers={"Content-Type": "application/json"}
+        )
+        try:
+            with urllib.request.urlopen(req) as resp:
+                result = json.loads(resp.read())
+                ok = result.get("ok", False)
+                print(f"Telegram chat_id {chat_id}: {'OK' if ok else 'FAILED'}")
+                results.append(ok)
+        except Exception as e:
+            print(f"Telegram chat_id {chat_id}: ERRORE — {e}")
+            results.append(False)
+    return all(results)
 
 if __name__ == "__main__":
     print("Fetching Azure token...")
