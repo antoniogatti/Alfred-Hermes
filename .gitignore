@@ -2,6 +2,8 @@
 # Azure Credentials & Secrets
 # =====================================================
 AZURE_CREDENTIALS.env
+TELEGRAM_CREDENTIALS.env
+OPENROUTER_CREDENTIALS.env
 .env
 .env.local
 .env.*.local
@@ -120,4 +122,6 @@ config/local/
 **/.aws
 **/.gcp
 **/private*
-**/confidential*
+**/confidential*_vm_agents/palazzopinto/Hotel-Booking-Management-System--React-MERN-FullStack/
+**/__pycache__/
+*.pyc

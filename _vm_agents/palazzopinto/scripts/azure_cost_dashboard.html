@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azure Cost Monitor — Ant Enterprise</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0f1117; color: #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding: 24px 16px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 1.4rem; font-weight: 700; color: #f9fafb; margin-bottom: 4px; }
+    .subtitle { font-size: 0.85rem; color: #6b7280; margin-bottom: 24px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .card { background: #1a1d27; border: 1px solid #2d3148; border-radius: 12px; padding: 18px; }
+    .card-label { font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .card-value { font-size: 1.6rem; font-weight: 700; }
+    .card-sub { font-size: 0.8rem; color: #9ca3af; margin-top: 4px; }
+    .section { background: #1a1d27; border: 1px solid #2d3148; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .section-title { font-size: 0.9rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+    .budget-bar-bg { background: #2d3148; border-radius: 8px; height: 14px; margin-bottom: 10px; overflow: hidden; }
+    .budget-bar-fill { height: 14px; border-radius: 8px; background: #10b981; width: 36.0%; }
+    .budget-info { display: flex; justify-content: space-between; font-size: 0.82rem; color: #9ca3af; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { text-align: left; color: #6b7280; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0 12px 10px 0; border-bottom: 1px solid #2d3148; }
+    td { padding: 10px 12px 10px 0; border-bottom: 1px solid #1f2937; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    .suggestion { background: #111827; border-left: 3px solid #3b82f6; border-radius: 6px; padding: 14px 16px; margin-bottom: 12px; }
+    .sug-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .sug-title { font-size: 0.88rem; font-weight: 600; color: #e5e7eb; }
+    .sug-cost { font-size: 0.85rem; font-weight: 700; color: #f59e0b; }
+    .suggestion p { font-size: 0.82rem; color: #9ca3af; line-height: 1.5; }
+    .status-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: #10b98122; color: #10b981; border: 1px solid #10b98155; }
+    .updated { font-size: 0.75rem; color: #4b5563; margin-top: 24px; text-align: center; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>☁️ Azure Cost Monitor <span class="status-badge">OK</span></h1>
+  <p class="subtitle">Subscription: Ant Enterprise &nbsp;·&nbsp; 21 May 2026</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Speso questo mese</div>
+      <div class="card-value" style="color:#10b981">$54.01</div>
+      <div class="card-sub">Budget: $50.00</div>
+    </div>
+    <div class="card">
+      <div class="card-label">% Budget usato</div>
+      <div class="card-value" style="color:#10b981">36%</div>
+      <div class="card-sub">21 giorni su 31</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Proiezione fine mese</div>
+      <div class="card-value" style="color:#10b981">$79.74</div>
+      <div class="card-sub">10 giorni rimanenti</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Sforamento previsto</div>
+      <div class="card-value" style="color:#ef4444">$0.00</div>
+      <div class="card-sub">vs budget $50.00</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Budget mensile — $50.00</div>
+    <div class="budget-bar-bg"><div class="budget-bar-fill"></div></div>
+    <div class="budget-info">
+      <span>$54.01 spesi (36%)</span>
+      <span>$95.99 rimanenti</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Consumi per risorsa</div>
+    <table>
+      <thead><tr><th>Resource Group</th><th>Servizio</th><th>Costo (USD)</th><th>Peso</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>palazzopintobnb</td>
+          <td>Azure App Service</td>
+          <td style="color:#ef4444;font-weight:600">$38.0640</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#ef4444;height:8px;border-radius:4px;width:70.5%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>palazzopintobnb</td>
+          <td>Virtual Network</td>
+          <td style="color:#f59e0b;font-weight:600">$4.8900</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#f59e0b;height:8px;border-radius:4px;width:9.1%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>openclaw</td>
+          <td>Storage</td>
+          <td style="color:#f59e0b;font-weight:600">$3.8166</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#f59e0b;height:8px;border-radius:4px;width:7.1%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>otto-telemetry</td>
+          <td>SQL Database</td>
+          <td style="color:#f59e0b;font-weight:600">$3.2737</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#f59e0b;height:8px;border-radius:4px;width:6.1%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>openclaw</td>
+          <td>Virtual Network</td>
+          <td style="color:#f59e0b;font-weight:600">$2.4450</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#f59e0b;height:8px;border-radius:4px;width:4.5%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>openclaw</td>
+          <td>Virtual Machines</td>
+          <td style="color:#10b981;font-weight:600">$0.8048</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#10b981;height:8px;border-radius:4px;width:1.5%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>palazzopintobnb</td>
+          <td>Azure DNS</td>
+          <td style="color:#10b981;font-weight:600">$0.3287</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#10b981;height:8px;border-radius:4px;width:0.6%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>palazzopintobnb</td>
+          <td>Bandwidth</td>
+          <td style="color:#10b981;font-weight:600">$0.3178</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#10b981;height:8px;border-radius:4px;width:0.6%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>openclaw</td>
+          <td>Foundry Models</td>
+          <td style="color:#10b981;font-weight:600">$0.0681</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#10b981;height:8px;border-radius:4px;width:0.1%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>n8n</td>
+          <td>Foundry Models</td>
+          <td style="color:#10b981;font-weight:600">$0.0028</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#10b981;height:8px;border-radius:4px;width:0.0%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>openclaw</td>
+          <td>Bandwidth</td>
+          <td style="color:#10b981;font-weight:600">$0.0026</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#10b981;height:8px;border-radius:4px;width:0.0%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>defaultresourcegroup-chn</td>
+          <td>Storage</td>
+          <td style="color:#10b981;font-weight:600">$0.0001</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#10b981;height:8px;border-radius:4px;width:0.0%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>n8n</td>
+          <td>Azure App Service</td>
+          <td style="color:#6b7280;font-weight:600">$0.0000</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#6b7280;height:8px;border-radius:4px;width:0.0%"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>palazzopintobnb</td>
+          <td>Azure Cosmos DB</td>
+          <td style="color:#6b7280;font-weight:600">$0.0000</td>
+          <td>
+            <div style="background:#1f2937;border-radius:4px;height:8px;width:120px">
+              <div style="background:#6b7280;height:8px;border-radius:4px;width:0.0%"></div>
+            </div>
+          </td>
+        </tr></tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">💡 Suggerimenti</div>
+    
+      <div class="suggestion">
+        <div class="sug-header">
+          <span class="sug-title">palazzopintobnb / Azure App Service</span>
+          <span class="sug-cost">$38.06</span>
+        </div>
+        <p>Piano App Service molto costoso. Valuta downgrade a B1/B2 o migrazione a Container Apps se il traffico e' basso.</p>
+      </div>
+      <div class="suggestion">
+        <div class="sug-header">
+          <span class="sug-title">Virtual Network (totale)</span>
+          <span class="sug-cost">$7.33</span>
+        </div>
+        <p>IP pubblici statici costano anche quando non usati (~$3.65/mese cad.). Controlla se ci sono IP non associati a risorse attive.</p>
+      </div>
+      <div class="suggestion">
+        <div class="sug-header">
+          <span class="sug-title">otto-telemetry / SQL Database</span>
+          <span class="sug-cost">$3.27</span>
+        </div>
+        <p>Valuta serverless tier o pausa automatica se il DB non e' usato 24/7.</p>
+      </div>
+  </div>
+
+  <p class="updated">Ultimo aggiornamento: 21/05/2026 22:36 UTC</p>
+</div>
+</body>
+</html>
