@@ -97,6 +97,17 @@ azure-pipelines-*.yaml
 *.azurepipeline
 
 # =====================================================
+# Home Assistant (HomeWimpy)
+# =====================================================
+_vm_tools/HomeWimpy/venv/
+_vm_tools/HomeWimpy/.storage/
+_vm_tools/HomeWimpy/deps/
+_vm_tools/HomeWimpy/.HA_VERSION
+_vm_tools/HomeWimpy/home-assistant.log*
+_vm_tools/HomeWimpy/home-assistant_v2.db*
+_vm_tools/HomeWimpy/tts/
+
+# =====================================================
 # Local Development
 # =====================================================
 local.env
