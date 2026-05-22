@@ -1,5 +1,11 @@
 # Version History
 
+## 1.4 | 2026-05-22 22:55 UTC | HomeWimpy Config Ready for Versioning
+
+- Added the first HomeWimpy Home Assistant config files to the repository (`configuration.yaml`, automations, scenes, scripts, blueprints, and start wrapper).
+- Expanded `.gitignore` to exclude Home Assistant runtime state inside `config/.storage/`, logs, `.HA_VERSION`, and database files.
+- Kept the installation assets trackable while leaving generated state out of git.
+
 ## 1.3 | 2026-05-22 22:40 UTC | HomeWimpy Home Assistant Installed
 
 - Installed the HomeWimpy Home Assistant instance under `_vm_tools/HomeWimpy/` and documented the local start/stop workflow.

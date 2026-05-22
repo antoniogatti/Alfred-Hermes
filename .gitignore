@@ -106,6 +106,10 @@ _vm_tools/HomeWimpy/.HA_VERSION
 _vm_tools/HomeWimpy/home-assistant.log*
 _vm_tools/HomeWimpy/home-assistant_v2.db*
 _vm_tools/HomeWimpy/tts/
+_vm_tools/HomeWimpy/config/.storage/
+_vm_tools/HomeWimpy/config/.HA_VERSION
+_vm_tools/HomeWimpy/config/home-assistant.log*
+_vm_tools/HomeWimpy/config/home-assistant_v2.db*
 
 # =====================================================
 # Local Development
