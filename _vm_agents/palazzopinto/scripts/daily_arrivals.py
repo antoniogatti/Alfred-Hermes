@@ -95,11 +95,15 @@ def main():
             is_booking_com = "@booking.com" in res_num or b.get("isImported", False)
             source = "Booking.com" if is_booking_com else "diretto"
 
+            booking_id = b.get("_id", "")
+            link = f"https://www.palazzopintobnb.com/booking/{booking_id}" if booking_id else ""
+
             line = (
                 f"👤 <b>{name}</b>\n"
                 f"   🛏 {room}  |  check-out: {checkout}\n"
                 f"   👥 {pax}  |  arrivo: {arrival_time or 'n/d'}\n"
                 f"   📋 {res_num or 'n/d'} ({source}, {status})"
+                + (f"\n   🔗 <a href=\"{link}\">Apri prenotazione</a>" if link else "")
             )
             lines.append(line)
 
