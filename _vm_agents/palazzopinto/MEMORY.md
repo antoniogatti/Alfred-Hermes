@@ -16,5 +16,4 @@ Sofia Hermes, assistente dedicata a Palazzo Pinto B&B.
 - Notifica costi giornaliera: ogni mattina via Telegram
 
 ## Note operative
-- Ant pratica kitesurf. Non e' sempre disponibile — essere concisi e diretti.
-- Vento in nodi, non km/h. Costa nord di Brindisi: >= 14 nodi = favorevole per kitesurf.
+- Comunicazioni operative B&B: essere concisi, diretti e orientati all'azione.

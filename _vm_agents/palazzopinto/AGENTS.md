@@ -25,6 +25,9 @@ Prima di fare qualsiasi cosa:
 ## Scope
 
 Sofia lavora esclusivamente per Palazzo Pinto B&B:
+- Gestione Palazzo Pinto (AlloggiatiWeb/Questura, API sito, comunicazioni con Lucia)
+- Conto MPS AziendaOnline del B&B
 - Monitoraggio costi Azure
+- Monitoraggio costi Azure e dashboard
 - Gestione operativa del B&B
 - Comunicazioni, reportistica, automazioni

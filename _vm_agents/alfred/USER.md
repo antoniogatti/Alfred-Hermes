@@ -31,6 +31,7 @@
 
 - Parla italiano, preferisce comunicazioni in italiano
 - Tipo attivo, ama stare fuori
+- Per kitesurf: usare vento in nodi (non km/h). Costa nord di Brindisi: >= 14 nodi = favorevole; segnalarlo sempre.
 
 ---
 
