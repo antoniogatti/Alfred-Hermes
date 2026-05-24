@@ -4,6 +4,7 @@ Azure Cost Dashboard updater.
 Fetches current month costs via Cost Management API, generates HTML dashboard,
 uploads to Azure Blob Storage static website.
 """
+import os
 import subprocess, json, calendar, urllib.error
 from datetime import date, datetime
 
@@ -18,11 +19,36 @@ TELEGRAM_BOT_TOKEN = "8762402366:AAERRdcywRFxd6WkNnwGFzdncebn13Xzu6E"
 TELEGRAM_CHAT_IDS = [2006873328, 8930593706]  # Ant (@Anttt00), Lucia (Lucifera84)
 
 def get_token():
-    r = subprocess.run(
-        ["az", "account", "get-access-token", "--resource", "https://management.azure.com", "--query", "accessToken", "-o", "tsv"],
-        capture_output=True, text=True
+    cmd = [
+        "az", "account", "get-access-token",
+        "--resource", "https://management.azure.com",
+        "--query", "accessToken", "-o", "tsv"
+    ]
+
+    candidates = [None, "/home/azureuser/.azure"]
+    errors = []
+
+    for azure_config_dir in candidates:
+        env = os.environ.copy()
+        if azure_config_dir:
+            if not os.path.isdir(azure_config_dir):
+                continue
+            env["AZURE_CONFIG_DIR"] = azure_config_dir
+
+        r = subprocess.run(cmd, capture_output=True, text=True, env=env)
+        token = r.stdout.strip()
+        if r.returncode == 0 and token:
+            return token
+
+        source = azure_config_dir or env.get("AZURE_CONFIG_DIR", "default")
+        stderr = (r.stderr or "").strip() or "unknown error"
+        errors.append(f"AZURE_CONFIG_DIR={source}: {stderr}")
+
+    details = " | ".join(errors) if errors else "no Azure CLI profile available"
+    raise RuntimeError(
+        "Unable to obtain Azure access token. Run 'az login' on a profile with access "
+        f"to subscription {SUBSCRIPTION}. Details: {details}"
     )
-    return r.stdout.strip()
 
 def fetch_costs(token):
     import urllib.request, time
